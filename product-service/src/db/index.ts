@@ -3,12 +3,13 @@ import * as products from "./tables/products.json";
 const tables = { products };
 
 export class DB {
-  instance = null;
-  constructor() {}
+  private static instance: DB | null = null;
 
-  getInstance() {
-    if (!this.instance) this.instance = new DB();
-    return this.instance;
+  public static getInstance(): DB {
+    if (!DB.instance) {
+      DB.instance = new DB();
+    }
+    return DB.instance;
   }
 
   static getTable(tableName) {
