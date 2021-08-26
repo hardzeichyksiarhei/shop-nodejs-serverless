@@ -1,3 +1,6 @@
+import { NotFoundError } from "@libs/appError";
+import { MessageUtil } from "@libs/message";
+
 import { ProductService } from "./product.service";
 
 export class ProductController {
@@ -13,9 +16,9 @@ export class ProductController {
   async getAll() {
     try {
       const products = await ProductService.getAll();
-      return products;
+      return MessageUtil.success(products);
     } catch (err) {
-      console.error(err);
+      return MessageUtil.error(err.message, err.statusCode, err.code);
     }
   }
 
@@ -23,9 +26,16 @@ export class ProductController {
     try {
       const product = await ProductService.getById(id);
 
-      return product;
+      if (!product) {
+        throw new NotFoundError(
+          `Produst #${id} not found.`,
+          "PRODUCT_NOT_FOUND"
+        );
+      }
+
+      return MessageUtil.success(product);
     } catch (err) {
-      console.error(err);
+      return MessageUtil.error(err.message, err.statusCode, err.code);
     }
   }
 }

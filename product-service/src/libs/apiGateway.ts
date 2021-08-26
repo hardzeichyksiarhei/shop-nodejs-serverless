@@ -12,13 +12,3 @@ export type ValidatedEventAPIGatewayProxyEvent<S> = Handler<
   ValidatedAPIGatewayProxyEvent<S>,
   APIGatewayProxyResult
 >;
-
-export const formatJSONResponse = (
-  response: Record<string, unknown>,
-  statusCode: number = 200
-) => {
-  return {
-    statusCode,
-    body: JSON.stringify(response),
-  };
-};
