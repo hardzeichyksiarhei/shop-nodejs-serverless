@@ -9,7 +9,7 @@ describe("Boards suite", () => {
         .expect(200)
         .expect("Content-Type", /json/)
         .then((res) => {
-          const { data: products } = res.body;
+          const products = res.body;
           expect(Array.isArray(products)).toBe(true);
           expect(products).not.toHaveLength(0);
         });
@@ -22,7 +22,7 @@ describe("Boards suite", () => {
         .get(routes.products.getAll)
         .expect(200)
         .then((res) => {
-          const { data: products } = res.body;
+          const products = res.body;
 
           expect(Array.isArray(products)).toBe(true);
           expect(products).not.toHaveLength(0);
@@ -37,7 +37,7 @@ describe("Boards suite", () => {
         .expect(200)
         .expect("Content-Type", /json/)
         .then((res) => {
-          const { data: product } = res.body;
+          const product = res.body;
 
           expect(product).toEqual(expectedProduct);
         });

@@ -13,7 +13,7 @@ describe("getProductsList", () => {
     const body = JSON.parse(response.body);
 
     expect(response.statusCode).toBe(200);
-    expect(body.data).toBeInstanceOf(Array);
-    expect(body.data).toEqual(products);
+    expect(body).toBeInstanceOf(Array);
+    expect(body).toEqual(products);
   });
 });

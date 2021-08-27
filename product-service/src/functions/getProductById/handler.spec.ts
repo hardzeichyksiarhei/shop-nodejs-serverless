@@ -17,7 +17,7 @@ describe("getProductById", () => {
     } as APIGatewayProxyEventWithPathParameters;
     const response = (await main(event, null, null)) as APIGatewayProxyResult;
     const body = JSON.parse(response.body);
-    expect(body.data).toEqual(product);
+    expect(body).toEqual(product);
   });
 
   test("should get a board by id [not found]", async () => {

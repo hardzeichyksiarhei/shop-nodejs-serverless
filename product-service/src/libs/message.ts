@@ -42,14 +42,17 @@ class Result {
   }
 
   bodyToString() {
-    const body: ResponseBodyVO = {};
-    if (this.code) body.code = this.code;
-    if (this.message) body.message = this.message;
-    if (this.data) body.data = this.data;
+    const prepareBody: ResponseBodyVO = {};
+    if (this.code) prepareBody.code = this.code;
+    if (this.message) prepareBody.message = this.message;
+    if (this.data) prepareBody.data = this.data;
 
     return {
       statusCode: this.statusCode,
-      body: JSON.stringify(body),
+      body:
+        prepareBody.data && Object.keys(prepareBody).length === 1
+          ? JSON.stringify(this.data)
+          : JSON.stringify(prepareBody),
     };
   }
 }
