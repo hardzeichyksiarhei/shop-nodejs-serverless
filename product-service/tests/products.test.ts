@@ -41,6 +41,8 @@ describe("Boards suite", () => {
 
           expect(product).toEqual(expectedProduct);
         });
+
+      await request.get(routes.products.getById("test")).expect(404);
     });
   });
 });
