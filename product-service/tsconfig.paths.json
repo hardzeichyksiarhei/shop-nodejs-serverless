@@ -4,7 +4,8 @@
     "paths": {
       "@functions/*": ["src/functions/*"],
       "@libs/*": ["src/libs/*"],
-      "@resources/*": ["src/resources/*"],
+      "@db/*": ["src/db/*"],
+      "@resources/*": ["src/resources/*"]
     }
   }
 }
