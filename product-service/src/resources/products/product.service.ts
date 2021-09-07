@@ -55,7 +55,13 @@ export class ProductService {
     const connection: Connection = await this.db.getConnection();
 
     const productRepository = connection.getCustomRepository(ProductRepository);
-    return productRepository.getProductById(id);
+    const product = await productRepository.getProductById(id);
+
+    if (!product) {
+      throw new NotFoundError(`Produst #${id} not found.`, "PRODUCT_NOT_FOUND");
+    }
+
+    return product;
   }
 
   async deleteById(id: string) {
