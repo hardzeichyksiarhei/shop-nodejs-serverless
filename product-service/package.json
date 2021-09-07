@@ -19,7 +19,8 @@
     "@middy/http-json-body-parser": "^1.5.2",
     "pg": "^8.7.1",
     "source-map-support": "^0.5.19",
-    "typeorm": "^0.2.37"
+    "typeorm": "^0.2.37",
+    "typeorm-naming-strategies": "^2.0.0"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
