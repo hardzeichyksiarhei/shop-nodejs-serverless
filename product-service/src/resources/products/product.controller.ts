@@ -1,7 +1,9 @@
-import { NotFoundError } from "@libs/appError";
+import { NotFoundError, AppValidationError } from "@libs/appError";
 import { MessageUtil } from "@libs/message";
 
 import { ProductService } from "@resources/products/product.service";
+import { plainToClass } from "class-transformer";
+import { validate } from "class-validator";
 import { CreateProductDto } from "./dto/create-user.dto";
 
 const productService = ProductService.getInstance();
@@ -18,10 +20,17 @@ export class ProductController {
 
   async create(createProductDto: CreateProductDto) {
     try {
-      const product = await productService.create(createProductDto);
-      return MessageUtil.success(product);
-    } catch (err) {
-      return MessageUtil.error(err.message, err.statusCode, err.code);
+      const product = plainToClass(CreateProductDto, createProductDto);
+
+      const errors = await validate(product);
+
+      if (errors.length) throw new AppValidationError(errors);
+
+      const { id } = await productService.create(product);
+
+      return MessageUtil.success({ id });
+    } catch (error) {
+      return MessageUtil.error(error);
     }
   }
 
@@ -29,8 +38,8 @@ export class ProductController {
     try {
       const products = await productService.getAll();
       return MessageUtil.success(products);
-    } catch (err) {
-      return MessageUtil.error(err.message, err.statusCode, err.code);
+    } catch (error) {
+      return MessageUtil.error(error);
     }
   }
 
@@ -46,8 +55,8 @@ export class ProductController {
       }
 
       return MessageUtil.success(product);
-    } catch (err) {
-      return MessageUtil.error(err.message, err.statusCode, err.code);
+    } catch (error) {
+      return MessageUtil.error(error);
     }
   }
 
@@ -56,8 +65,8 @@ export class ProductController {
       const product = await productService.deleteById(id);
 
       return MessageUtil.success(product);
-    } catch (err) {
-      return MessageUtil.error(err.message, err.statusCode, err.code);
+    } catch (error) {
+      return MessageUtil.error(error);
     }
   }
 }

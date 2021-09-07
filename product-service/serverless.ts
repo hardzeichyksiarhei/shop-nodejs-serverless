@@ -12,7 +12,7 @@ const serverlessConfiguration: AWS = {
     webpack: {
       webpackConfig: "./webpack.config.js",
       includeModules: {
-        forceInclude: ["pg"],
+        forceInclude: ["pg", "reflect-metadata"],
       },
     },
   },
