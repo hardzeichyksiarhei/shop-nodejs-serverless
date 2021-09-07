@@ -47,13 +47,6 @@ export class ProductController {
     try {
       const product = await productService.getById(id);
 
-      if (!product) {
-        throw new NotFoundError(
-          `Produst #${id} not found.`,
-          "PRODUCT_NOT_FOUND"
-        );
-      }
-
       return MessageUtil.success(product);
     } catch (error) {
       return MessageUtil.error(error);

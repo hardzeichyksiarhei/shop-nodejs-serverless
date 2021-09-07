@@ -65,18 +65,6 @@ export class MessageUtil {
     return result.bodyToString();
   }
 
-  // static error(
-  //   message: string,
-  //   statusCode: StatusCode = StatusCode.INTERNAL_SERVER,
-  //   code: string = "INTERNAL_SERVER",
-  //   data: any = null
-  // ) {
-  //   const result = new Result(statusCode);
-  //   result.setCode(code).setMessage(message);
-  //   if (data) result.setData(data);
-  //   return result.bodyToString();
-  // }
-
   static error(error) {
     const result = new Result(error.statusCode || StatusCode.INTERNAL_SERVER);
     if (error instanceof AppError) {
