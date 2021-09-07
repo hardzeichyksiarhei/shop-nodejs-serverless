@@ -7,7 +7,13 @@
     "offline": "sls offline --noPrependStageInUrl --useChildProcesses",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "typeorm": "ts-node --files -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
+    "migration:run": "npm run typeorm migration:run",
+    "migration:revert": "npm run typeorm migration:revert",
+    "typeorm-seeding": "ts-node ./node_modules/typeorm-seeding/dist/cli.js --configName src/ormconfig.ts",
+    "seed:config": "npm run typeorm-seeding config",
+    "seed:run": "npm run typeorm-seeding seed"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -19,15 +25,18 @@
     "@middy/http-json-body-parser": "^1.5.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "dotenv": "^10.0.0",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19",
     "typeorm": "^0.2.37",
-    "typeorm-naming-strategies": "^2.0.0"
+    "typeorm-naming-strategies": "^2.0.0",
+    "typeorm-seeding": "^1.6.1"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
+    "@types/dotenv": "^8.2.0",
     "@types/jest": "^27.0.1",
     "@types/node": "^14.14.25",
     "@types/supertest": "^2.0.11",
