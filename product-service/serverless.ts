@@ -9,7 +9,9 @@ const serverlessConfiguration: AWS = {
   custom: {
     webpack: {
       webpackConfig: "./webpack.config.js",
-      includeModules: true,
+      includeModules: {
+        forceInclude: ["pg"],
+      },
     },
   },
   plugins: ["serverless-webpack", "serverless-offline"],
@@ -24,6 +26,18 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
+
+      PG_HOST: "hardz-shop.cm2lwxoyppa7.eu-west-3.rds.amazonaws.com",
+      PG_PORT: "5432",
+      PG_DATABASE: "hardz_shop",
+      PG_USERNAME: "postgres",
+      PG_PASSWORD: "rxuxTDkyYhfrU8mLyL8K",
+
+      // PG_HOST: "localhost",
+      // PG_PORT: "5432",
+      // PG_DATABASE: "hardz_shop",
+      // PG_USERNAME: "postgres",
+      // PG_PASSWORD: "4804",
     },
     lambdaHashingVersion: "20201221",
   },
