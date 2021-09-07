@@ -5,6 +5,10 @@ import getProductsList from "@functions/getProductsList";
 import getProductById from "@functions/getProductById";
 import deleteProductById from "@functions/deleteProductById";
 
+import config from "src/config";
+
+const { PG_HOST, PG_PORT, PG_USERNAME, PG_DATABASE, PG_PASSWORD } = config;
+
 const serverlessConfiguration: AWS = {
   service: "product-service",
   frameworkVersion: "2",
@@ -29,17 +33,11 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
 
-      // PG_HOST: "hardz-shop.cm2lwxoyppa7.eu-west-3.rds.amazonaws.com",
-      // PG_PORT: "5432",
-      // PG_DATABASE: "hardz_shop",
-      // PG_USERNAME: "postgres",
-      // PG_PASSWORD: "rxuxTDkyYhfrU8mLyL8K",
-
-      PG_HOST: "localhost",
-      PG_PORT: "5432",
-      PG_DATABASE: "hardz_shop",
-      PG_USERNAME: "postgres",
-      PG_PASSWORD: "4804",
+      PG_HOST: PG_HOST,
+      PG_PORT: PG_PORT,
+      PG_DATABASE: PG_USERNAME,
+      PG_USERNAME: PG_DATABASE,
+      PG_PASSWORD: PG_PASSWORD,
     },
     lambdaHashingVersion: "20201221",
   },
