@@ -13,8 +13,13 @@ create table stocks (
 	id uuid primary key default uuid_generate_v4(),
 	product_id uuid,
 	count integer,
-	foreign key ("product_id") references "products" ("id")
+	foreign key ("product_id") references "products" ("id") ON DELETE CASCADE
 )
+
+-- ALTER table stocks 
+--     DROP CONSTRAINT stocks_product_id_fkey,
+--     ADD CONSTRAINT stocks_product_id_fkey 
+--     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE;
 
 --drop table stocks
 
