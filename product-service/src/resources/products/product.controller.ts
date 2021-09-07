@@ -50,4 +50,14 @@ export class ProductController {
       return MessageUtil.error(err.message, err.statusCode, err.code);
     }
   }
+
+  async deleteById(id: string) {
+    try {
+      const product = await productService.deleteById(id);
+
+      return MessageUtil.success(product);
+    } catch (err) {
+      return MessageUtil.error(err.message, err.statusCode, err.code);
+    }
+  }
 }

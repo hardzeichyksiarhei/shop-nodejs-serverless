@@ -12,7 +12,7 @@ class Stock {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @OneToOne(() => Product)
+  @OneToOne(() => Product, (product) => product.stock, { onDelete: "CASCADE" })
   @JoinColumn({
     name: "product_id",
     referencedColumnName: "id",

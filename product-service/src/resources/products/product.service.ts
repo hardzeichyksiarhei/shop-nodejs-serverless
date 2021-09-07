@@ -6,6 +6,7 @@ import Product from "@resources/products/product.entity";
 import Stock from "@resources/stocks/stock.entity";
 import { ProductRepository } from "./product.repository";
 import { CreateProductDto } from "./dto/create-user.dto";
+import { NotFoundError } from "@libs/appError";
 
 export class ProductService {
   private static instance: ProductService | null = null;
@@ -55,5 +56,20 @@ export class ProductService {
 
     const productRepository = connection.getCustomRepository(ProductRepository);
     return productRepository.getProductById(id);
+  }
+
+  async deleteById(id: string) {
+    const connection: Connection = await this.db.getConnection();
+
+    const productRepository = connection.getCustomRepository(ProductRepository);
+    const product = await productRepository.getProductById(id);
+
+    if (!product) {
+      throw new NotFoundError(`Produst #${id} not found.`, "PRODUCT_NOT_FOUND");
+    }
+
+    await productRepository.delete({ id });
+
+    return { id };
   }
 }
