@@ -1,3 +1,5 @@
+import { AppError, AppValidationError } from "./appError";
+
 export class ResponseBodyVO {
   code?: string;
   message?: string;
@@ -63,13 +65,31 @@ export class MessageUtil {
     return result.bodyToString();
   }
 
-  static error(
-    message: string,
-    statusCode: StatusCode = StatusCode.INTERNAL_SERVER,
-    code: string = "INTERNAL_SERVER"
-  ) {
-    const result = new Result(statusCode);
-    result.setCode(code).setMessage(message);
+  // static error(
+  //   message: string,
+  //   statusCode: StatusCode = StatusCode.INTERNAL_SERVER,
+  //   code: string = "INTERNAL_SERVER",
+  //   data: any = null
+  // ) {
+  //   const result = new Result(statusCode);
+  //   result.setCode(code).setMessage(message);
+  //   if (data) result.setData(data);
+  //   return result.bodyToString();
+  // }
+
+  static error(error) {
+    const result = new Result(error.statusCode || StatusCode.INTERNAL_SERVER);
+    if (error instanceof AppError) {
+      result.setCode(error.code).setMessage(error.message);
+    }
+    if (error instanceof AppValidationError) {
+      const errors = error.errors.reduce((acc, error) => {
+        acc[error.property] = Object.values(error.constraints);
+        return acc;
+      }, {});
+      result.setData(errors);
+    }
+
     return result.bodyToString();
   }
 }
