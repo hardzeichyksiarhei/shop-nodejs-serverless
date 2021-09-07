@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
+import Stock from "@resources/stocks/stock.entity";
 
 @Entity({ name: "products" })
 class Product {
@@ -13,6 +14,9 @@ class Product {
 
   @Column("text")
   price: number;
+
+  @OneToOne(() => Stock, (stock) => stock.product)
+  public stock: Stock;
 }
 
 export default Product;
