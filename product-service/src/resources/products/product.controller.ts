@@ -1,10 +1,10 @@
-import { NotFoundError, AppValidationError } from "@libs/appError";
+import { AppValidationError } from "@libs/appError";
 import { MessageUtil } from "@libs/message";
 
 import { ProductService } from "@resources/products/product.service";
 import { plainToClass } from "class-transformer";
 import { validate } from "class-validator";
-import { CreateProductDto } from "./dto/create-user.dto";
+import { CreateProductDto } from "./dto/create-product.dto";
 
 const productService = ProductService.getInstance();
 

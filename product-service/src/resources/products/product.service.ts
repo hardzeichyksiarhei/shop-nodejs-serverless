@@ -5,7 +5,7 @@ import { DB } from "@db";
 import Product from "@resources/products/product.entity";
 import Stock from "@resources/stocks/stock.entity";
 import { ProductRepository } from "./product.repository";
-import { CreateProductDto } from "./dto/create-user.dto";
+import { CreateProductDto } from "./dto/create-product.dto";
 import { NotFoundError } from "@libs/appError";
 
 export class ProductService {
