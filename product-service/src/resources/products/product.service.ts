@@ -26,9 +26,6 @@ export class ProductService {
   async create(createProductDto: CreateProductDto) {
     const connection: Connection = await this.db.getConnection();
 
-    const productRepository = connection.getRepository(Product);
-    const stockRepository = connection.getRepository(Stock);
-
     const product = new Product();
     product.title = createProductDto.title;
     product.description = createProductDto.description;
@@ -38,8 +35,10 @@ export class ProductService {
     stock.product = product;
     stock.count = createProductDto.count;
 
-    await productRepository.save(product);
-    await stockRepository.save(stock);
+    await connection.transaction(async (manager) => {
+      await manager.getRepository(Product).save(product);
+      await manager.getRepository(Stock).save(stock);
+    });
 
     return { id: product.id };
   }
