@@ -4,7 +4,7 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "offline": "sls offline --noPrependStageInUrl",
+    "offline": "sls offline --noPrependStageInUrl --useChildProcesses",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
