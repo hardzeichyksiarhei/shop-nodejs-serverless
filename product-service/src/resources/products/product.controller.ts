@@ -2,6 +2,8 @@ import { NotFoundError } from "@libs/appError";
 import { MessageUtil } from "@libs/message";
 
 import { ProductService } from "@resources/products/product.service";
+import { CreateProductDto } from "./dto/create-user.dto";
+
 const productService = ProductService.getInstance();
 
 export class ProductController {
@@ -12,6 +14,15 @@ export class ProductController {
       ProductController.instance = new ProductController();
     }
     return ProductController.instance;
+  }
+
+  async create(createProductDto: CreateProductDto) {
+    try {
+      const product = await productService.create(createProductDto);
+      return MessageUtil.success(product);
+    } catch (err) {
+      return MessageUtil.error(err.message, err.statusCode, err.code);
+    }
   }
 
   async getAll() {

@@ -17,6 +17,7 @@
     "@middy/http-cors": "^2.5.1",
     "@middy/http-event-normalizer": "^2.5.1",
     "@middy/http-json-body-parser": "^1.5.2",
+    "class-validator": "^0.13.1",
     "pg": "^8.7.1",
     "source-map-support": "^0.5.19",
     "typeorm": "^0.2.37",
