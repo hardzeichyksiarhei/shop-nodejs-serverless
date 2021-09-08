@@ -15,6 +15,8 @@ const createProduct = async (
 
   const payload = event.body as unknown as CreateProductDto;
 
+  console.log(`[product]: ${JSON.stringify(payload)}`);
+
   const product = await productController.create(payload);
   return product;
 };

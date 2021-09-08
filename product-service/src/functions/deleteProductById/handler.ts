@@ -14,6 +14,8 @@ const deleteProductById = async (
 
   const productId = event.pathParameters.productId;
 
+  console.log(`[product id]: ${productId}`);
+
   const product = await productController.deleteById(productId);
   return product;
 };

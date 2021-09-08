@@ -67,7 +67,11 @@ class Result {
 export class MessageUtil {
   static success(data: object, statusCode = StatusCode.OK): ResponseVO {
     const result = new Result(statusCode, data);
-    return result.bodyToString();
+
+    const response = result.bodyToString();
+    console.log(`[success response]: ${JSON.stringify(response)}`);
+
+    return response;
   }
 
   static error(error: Error | AppError | AppValidationError) {
@@ -87,6 +91,9 @@ export class MessageUtil {
       result.setData(errors);
     }
 
-    return result.bodyToString();
+    const response = result.bodyToString();
+    console.log(`[error response]: ${JSON.stringify(response)}`);
+
+    return response;
   }
 }
