@@ -1,9 +1,11 @@
+import { plainToClass } from "class-transformer";
+import { validate } from "class-validator";
+
 import { AppValidationError } from "@libs/appError";
 import { MessageUtil } from "@libs/message";
 
 import { ProductService } from "@resources/products/product.service";
-import { plainToClass } from "class-transformer";
-import { validate } from "class-validator";
+
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 

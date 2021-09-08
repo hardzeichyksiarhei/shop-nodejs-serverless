@@ -1,8 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
-import Stock from "@resources/stocks/stock.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
 
 @Entity({ name: "products" })
-class Product {
+export class Product {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -19,4 +24,18 @@ class Product {
   public stock: Stock;
 }
 
-export default Product;
+@Entity({ name: "stocks" })
+export class Stock {
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
+
+  @OneToOne(() => Product, (product) => product.stock, { onDelete: "CASCADE" })
+  @JoinColumn({
+    name: "product_id",
+    referencedColumnName: "id",
+  })
+  product: Product;
+
+  @Column("integer")
+  count: number;
+}

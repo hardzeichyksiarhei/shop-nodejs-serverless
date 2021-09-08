@@ -2,8 +2,7 @@ import path from "path";
 import { ConnectionOptions } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
-import Product from "@resources/products/product.entity";
-import Stock from "@resources/stocks/stock.entity";
+import { Product, Stock } from "@resources/products/product.entity";
 
 import config from "./config";
 
