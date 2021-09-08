@@ -14,6 +14,8 @@ const getProductById = async (
 
   const productId = event.pathParameters.productId;
 
+  console.log(`[product id]: ${productId}`);
+
   const product = await productController.getById(productId);
   return product;
 };
