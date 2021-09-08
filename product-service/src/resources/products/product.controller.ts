@@ -5,6 +5,7 @@ import { ProductService } from "@resources/products/product.service";
 import { plainToClass } from "class-transformer";
 import { validate } from "class-validator";
 import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
 
 const productService = ProductService.getInstance();
 
@@ -27,6 +28,22 @@ export class ProductController {
       if (errors.length) throw new AppValidationError(errors);
 
       const { id } = await productService.create(product);
+
+      return MessageUtil.success({ id });
+    } catch (error) {
+      return MessageUtil.error(error);
+    }
+  }
+
+  async update(productId: string, updateProductDto: UpdateProductDto) {
+    try {
+      const product = plainToClass(UpdateProductDto, updateProductDto);
+
+      const errors = await validate(product);
+
+      if (errors.length) throw new AppValidationError(errors);
+
+      const { id } = await productService.update(productId, product);
 
       return MessageUtil.success({ id });
     } catch (error) {

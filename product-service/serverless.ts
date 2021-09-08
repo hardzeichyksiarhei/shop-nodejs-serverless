@@ -6,6 +6,7 @@ import getProductById from "@functions/getProductById";
 import deleteProductById from "@functions/deleteProductById";
 
 import config from "src/config";
+import updateProductById from "@functions/updateProductById";
 
 const { PG_HOST, PG_PORT, PG_DATABASE, PG_USERNAME, PG_PASSWORD } = config;
 
@@ -45,6 +46,7 @@ const serverlessConfiguration: AWS = {
     createProduct,
     getProductsList,
     getProductById,
+    updateProductById,
     deleteProductById,
   },
 };
