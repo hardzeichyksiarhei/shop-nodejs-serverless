@@ -28,7 +28,7 @@ export class ProductService {
 
     const product = new Product();
     product.title = createProductDto.title;
-    product.description = createProductDto.description;
+    product.description = createProductDto.description || "";
     product.price = createProductDto.price;
 
     const stock = new Stock();
