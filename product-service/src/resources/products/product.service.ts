@@ -2,10 +2,13 @@ import { Connection } from "typeorm";
 
 import { DB } from "@db";
 
-import Product from "@resources/products/product.entity";
-import Stock from "@resources/stocks/stock.entity";
+import { Product, Stock } from "@resources/products/product.entity";
+
 import { ProductRepository } from "./product.repository";
+
 import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
+
 import { NotFoundError } from "@libs/appError";
 
 export class ProductService {
@@ -43,7 +46,7 @@ export class ProductService {
     return { id: product.id };
   }
 
-  async update(id: string, updateProductDto: CreateProductDto) {
+  async update(id: string, updateProductDto: UpdateProductDto) {
     const connection: Connection = await this.db.getConnection();
 
     const productRepository = connection.getRepository(Product);
