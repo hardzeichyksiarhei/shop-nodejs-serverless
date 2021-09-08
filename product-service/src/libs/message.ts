@@ -23,9 +23,14 @@ class Result {
   private message: string;
   private data?: any;
 
-  constructor(statusCode: number, data?: any) {
-    this.statusCode = statusCode;
+  constructor(statusCode?: number, data?: any) {
+    this.statusCode = statusCode || StatusCode.INTERNAL_SERVER;
     this.data = data;
+  }
+
+  setStatusCode(statusCode: number) {
+    this.statusCode = statusCode;
+    return this;
   }
 
   setCode(code: string) {
@@ -65,11 +70,15 @@ export class MessageUtil {
     return result.bodyToString();
   }
 
-  static error(error) {
-    const result = new Result(error.statusCode || StatusCode.INTERNAL_SERVER);
+  static error(error: Error | AppError | AppValidationError) {
+    const result = new Result();
+    result.setCode("INTERNAL_SERVER_ERROR");
+    result.setMessage(error.message);
+
     if (error instanceof AppError) {
-      result.setCode(error.code).setMessage(error.message);
+      result.setStatusCode(error.statusCode).setCode(error.code);
     }
+
     if (error instanceof AppValidationError) {
       const errors = error.errors.reduce((acc, error) => {
         acc[error.property] = Object.values(error.constraints);
