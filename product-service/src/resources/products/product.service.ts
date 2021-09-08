@@ -28,12 +28,36 @@ export class ProductService {
 
     const product = new Product();
     product.title = createProductDto.title;
-    product.description = createProductDto.description || "";
+    product.description = createProductDto.description;
     product.price = createProductDto.price;
 
     const stock = new Stock();
     stock.product = product;
     stock.count = createProductDto.count;
+
+    await connection.transaction(async (manager) => {
+      await manager.getRepository(Product).save(product);
+      await manager.getRepository(Stock).save(stock);
+    });
+
+    return { id: product.id };
+  }
+
+  async update(id: string, updateProductDto: CreateProductDto) {
+    const connection: Connection = await this.db.getConnection();
+
+    const productRepository = connection.getRepository(Product);
+    const stockRepository = connection.getRepository(Stock);
+
+    const product = await productRepository.findOne({ id });
+
+    product.title = updateProductDto.title;
+    product.description = updateProductDto.description;
+    product.price = updateProductDto.price;
+
+    const stock = await stockRepository.findOne({ product });
+
+    stock.count = updateProductDto.count;
 
     await connection.transaction(async (manager) => {
       await manager.getRepository(Product).save(product);
