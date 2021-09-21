@@ -5,8 +5,6 @@ import config from "./../../config";
 
 const { IMPORT_BUCKET_NAME, REGION } = config;
 
-console.log(config);
-
 export class ProductController {
   private static instance: ProductController | null = null;
 
