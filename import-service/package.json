@@ -4,15 +4,17 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "offline": "sls offline --noPrependStageInUrl --useChildProcesses"
   },
   "engines": {
     "node": ">=14.15.0"
   },
   "dependencies": {
     "@middy/core": "^1.5.2",
+    "@middy/http-cors": "^2.5.1",
     "@middy/http-json-body-parser": "^1.5.2",
     "aws-sdk": "^2.977.0",
+    "class-validator": "^0.13.1",
     "csv-parser": "^3.0.0",
     "dotenv": "^10.0.0",
     "source-map-support": "^0.5.19"
