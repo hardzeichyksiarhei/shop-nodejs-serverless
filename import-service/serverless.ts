@@ -1,10 +1,10 @@
 import type { AWS } from "@serverless/typescript";
 
-import hello from "@functions/hello";
+import importProductsFile from "@functions/importProductsFile";
 
 import config from "src/config";
 
-const { IMPORT_BUCKET_NAME, IMPORT_BUCKET_ARN } = config;
+const { IMPORT_BUCKET_NAME, IMPORT_BUCKET_ARN, REGION } = config;
 
 const serverlessConfiguration: AWS = {
   service: "import-service",
@@ -27,6 +27,9 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
+      IMPORT_BUCKET_NAME,
+      IMPORT_BUCKET_ARN,
+      REGION,
     },
     lambdaHashingVersion: "20201221",
     iamRoleStatements: [
@@ -43,7 +46,7 @@ const serverlessConfiguration: AWS = {
     ],
   },
   // import the function via paths
-  functions: { hello },
+  functions: { importProductsFile },
   resources: {
     Resources: {
       UploadBucket: {
@@ -55,7 +58,7 @@ const serverlessConfiguration: AWS = {
               {
                 AllowedOrigins: ["*"],
                 AllowedHeaders: ["*"],
-                AllowedMethods: ["POST", "PUT"],
+                AllowedMethods: ["PUT"],
               },
             ],
           },
