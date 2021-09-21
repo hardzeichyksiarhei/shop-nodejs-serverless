@@ -11,7 +11,7 @@ const { IMPORT_BUCKET_NAME, REGION } = config;
 
 const importProductsFile = async (event: lambda.APIGatewayProxyEvent) => {
   const filename = decodeURIComponent(event.queryStringParameters.name);
-  console.log(`[import file with name]: ${filename}`);
+  console.log(`[filename]: ${filename}`);
 
   try {
     const s3 = new AWS.S3({ region: REGION });
