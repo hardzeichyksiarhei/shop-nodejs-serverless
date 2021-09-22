@@ -25,12 +25,29 @@ describe("importProductsFile", () => {
 
     const expectedKey = `uploaded/${name}`;
     const expectedSignedUrl = `https://aws-s3-url/${expectedKey}`;
-    const lambdaResponse: APIGatewayProxyResult = {
+    const expectedResponse: APIGatewayProxyResult = {
       statusCode: 200,
       body: JSON.stringify({ signedUrl: expectedSignedUrl }),
     };
     const response = (await main(event, null, null)) as APIGatewayProxyResult;
 
-    expect(response.body).toBe(lambdaResponse.body);
+    expect(response.body).toBe(expectedResponse.body);
+  });
+
+  test("should decode the filename correctly [success]", async () => {
+    const name = encodeURIComponent("awesome test.csv");
+    const event = {
+      queryStringParameters: { name },
+    } as unknown as APIGatewayProxyEvent;
+
+    const expectedKey = `uploaded/${decodeURIComponent(name)}`;
+    const expectedSignedUrl = `https://aws-s3-url/${expectedKey}`;
+    const expectedResponse: APIGatewayProxyResult = {
+      statusCode: 200,
+      body: JSON.stringify({ signedUrl: expectedSignedUrl }),
+    };
+    const response = (await main(event, null, null)) as APIGatewayProxyResult;
+
+    expect(response.body).toBe(expectedResponse.body);
   });
 });
