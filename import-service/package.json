@@ -4,7 +4,10 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "offline": "sls offline --noPrependStageInUrl --useChildProcesses"
+    "offline": "sls offline --noPrependStageInUrl --useChildProcesses",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -23,11 +26,15 @@
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/dotenv": "^8.2.0",
+    "@types/jest": "^27.0.2",
     "@types/node": "^14.17.18",
+    "aws-sdk-mock": "^5.3.0",
+    "jest": "^27.2.1",
     "json-schema-to-ts": "^1.5.0",
     "serverless": "^2.23.0",
     "serverless-offline": "^8.2.0",
     "serverless-webpack": "^5.3.5",
+    "ts-jest": "^27.0.5",
     "ts-loader": "^8.0.15",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
