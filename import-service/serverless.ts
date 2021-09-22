@@ -1,6 +1,7 @@
 import type { AWS } from "@serverless/typescript";
 
 import importProductsFile from "@functions/importProductsFile";
+import importFileParser from "@functions/importFileParser";
 
 import config from "src/config";
 
@@ -46,7 +47,7 @@ const serverlessConfiguration: AWS = {
     ],
   },
   // import the function via paths
-  functions: { importProductsFile },
+  functions: { importProductsFile, importFileParser },
   resources: {
     Resources: {
       UploadBucket: {
