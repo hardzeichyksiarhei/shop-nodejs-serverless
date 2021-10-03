@@ -36,6 +36,9 @@ const serverlessConfiguration: AWS = {
       IMPORT_BUCKET_NAME,
       IMPORT_BUCKET_ARN,
       REGION,
+      CATALOG_ITEMS_QUEUE_URL: {
+        "Fn::ImportValue": `${PRODUCT_SERVICE_STACK_NAME}-CatalogItemsQueueUrl`,
+      },
     },
     lambdaHashingVersion: "20201221",
     iamRoleStatements: [

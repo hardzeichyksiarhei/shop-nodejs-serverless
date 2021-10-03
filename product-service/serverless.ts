@@ -51,6 +51,10 @@ const serverlessConfiguration: AWS = {
 
       PRODUCTS_SUBSCRIPTION_EMAIL,
       EXPENSIVE_PRODUCTS_SUBSCRIPTION_EMAIL,
+
+      CREATE_PRODUCT_TOPIC_ARN: {
+        Ref: "CreateProductTopic",
+      },
     },
     iamRoleStatements: [
       {
