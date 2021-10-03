@@ -15,7 +15,7 @@ const importFileParser: S3Handler = async (event: S3Event) => {
     const source = decodeURIComponent(record.s3.object.key.replace(/\+/g, " "));
     const fileName = source.replace(`${SOURCE_FOLDER}/`, "");
 
-    await s3u.readFile(source, "csv");
+    await s3u.readFile(source, "csv", true);
     await s3u.copyFile(source, SOURCE_FOLDER, TARGET_FOLDER);
     await s3u.deleteFile(source);
 

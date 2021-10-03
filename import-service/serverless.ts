@@ -5,7 +5,12 @@ import importFileParser from "@functions/importFileParser";
 
 import config from "src/config";
 
-const { IMPORT_BUCKET_NAME, IMPORT_BUCKET_ARN, REGION } = config;
+const {
+  IMPORT_BUCKET_NAME,
+  IMPORT_BUCKET_ARN,
+  REGION,
+  PRODUCT_SERVICE_STACK_NAME,
+} = config;
 
 const serverlessConfiguration: AWS = {
   service: "import-service",
@@ -43,6 +48,13 @@ const serverlessConfiguration: AWS = {
         Effect: "Allow",
         Action: "s3:*",
         Resource: `${IMPORT_BUCKET_ARN}/*`,
+      },
+      {
+        Effect: "Allow",
+        Action: "sqs:SendMessage",
+        Resource: {
+          "Fn::ImportValue": `${PRODUCT_SERVICE_STACK_NAME}-CatalogItemsQueueArn`,
+        },
       },
     ],
   },

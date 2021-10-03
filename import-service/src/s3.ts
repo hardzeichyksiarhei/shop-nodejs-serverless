@@ -4,11 +4,12 @@ import csv from "csv-parser";
 
 import config from "./config";
 
-const { IMPORT_BUCKET_NAME, REGION } = config;
+const { IMPORT_BUCKET_NAME, REGION, CATALOG_ITEMS_QUEUE_URL } = config;
 
 class S3Utils {
   private static instance: S3Utils | null = null;
   private _s3: AWS.S3 | null = null;
+  private _sqs: AWS.SQS | null = null;
 
   constructor() {
     this._s3 = new AWS.S3({ region: REGION });
@@ -25,7 +26,15 @@ class S3Utils {
     return this._s3;
   }
 
-  readFile(source: string, type?: string): Promise<Readable> {
+  public get sqs() {
+    return this._sqs;
+  }
+
+  readFile(
+    source: string,
+    type: string = "csv",
+    isSendMessage: boolean = false
+  ): Promise<Readable> {
     const readStream = this.s3
       .getObject({
         Bucket: IMPORT_BUCKET_NAME,
@@ -33,7 +42,28 @@ class S3Utils {
       })
       .createReadStream();
 
-    if (type === "csv") readStream.pipe(csv()).on("data", console.log);
+    if (type === "csv") {
+      const transformRecordsStream = readStream.pipe(csv());
+
+      transformRecordsStream.on("data", (record) => {
+        console.log(record);
+        if (isSendMessage) {
+          this.sqs.sendMessage(
+            {
+              MessageBody: JSON.stringify(record),
+              QueueUrl: CATALOG_ITEMS_QUEUE_URL,
+            },
+            (err, data) => {
+              if (err) {
+                console.error(err);
+                return;
+              }
+              console.log(data);
+            }
+          );
+        }
+      });
+    }
 
     return new Promise(
       (resolve, reject): Readable =>
