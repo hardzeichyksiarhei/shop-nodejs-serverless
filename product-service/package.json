@@ -23,6 +23,7 @@
     "@middy/http-cors": "^2.5.1",
     "@middy/http-event-normalizer": "^2.5.1",
     "@middy/http-json-body-parser": "^1.5.2",
+    "aws-sdk": "^2.999.0",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",
