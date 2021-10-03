@@ -44,7 +44,11 @@ class S3Utils {
       .createReadStream();
 
     if (type === "csv") {
-      const transformRecordsStream = readStream.pipe(csv());
+      const transformRecordsStream = readStream.pipe(
+        csv({
+          mapHeaders: ({ header }) => header.toLowerCase(),
+        })
+      );
 
       transformRecordsStream.on("data", (record) => {
         console.log(record);

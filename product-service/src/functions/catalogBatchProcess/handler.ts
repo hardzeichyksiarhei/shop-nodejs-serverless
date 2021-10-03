@@ -16,7 +16,7 @@ const catalogBatchProcess = async (event: lambda.SQSEvent) => {
   try {
     console.log(`[inserted products]: ${recordsData}`);
     const highestPrice = Math.max(
-      ...recordsData.map(({ Price }) => Number(Price))
+      ...recordsData.map(({ price }) => Number(price))
     );
 
     await sns
