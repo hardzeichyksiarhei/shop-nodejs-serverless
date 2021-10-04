@@ -107,6 +107,9 @@ const serverlessConfiguration: AWS = {
           TopicArn: {
             Ref: "CreateProductTopic",
           },
+          FilterPolicy: {
+            count: [{ numeric: [">=", 20] }],
+          },
         },
       },
       CreateExpensiveProductTopicSubscription: {
@@ -118,11 +121,7 @@ const serverlessConfiguration: AWS = {
             Ref: "CreateProductTopic",
           },
           FilterPolicy: {
-            highestPrice: [
-              {
-                numeric: [">=", 100],
-              },
-            ],
+            price: [{ numeric: [">=", 100] }],
           },
         },
       },

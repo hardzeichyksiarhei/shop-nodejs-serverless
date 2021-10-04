@@ -33,7 +33,9 @@ const catalogBatchProcess = async (event: lambda.SQSEvent) => {
   const ids = [];
 
   try {
-    for (const { title, description, price, count } of records) {
+    for (const record of records) {
+      const { title, description, price, count } = record;
+
       await dbClient.query("BEGIN");
 
       const { rows } = await dbClient.query(
@@ -51,23 +53,25 @@ const catalogBatchProcess = async (event: lambda.SQSEvent) => {
       await dbClient.query("COMMIT");
 
       ids.push(id);
-    }
 
-    const highestPrice = Math.max(...records.map(({ price }) => Number(price)));
-
-    await sns
-      .publish({
-        Subject: `Products uploaded #${Date.now()}`,
-        Message: `Uploaded products:\n\n${JSON.stringify(records, null, 2)}`,
-        TopicArn: process.env.CREATE_PRODUCT_TOPIC_ARN,
-        MessageAttributes: {
-          highestPrice: {
-            DataType: "Number",
-            StringValue: String(highestPrice),
+      await sns
+        .publish({
+          Subject: `Product #${id} uploaded`,
+          Message: JSON.stringify(record, null, 2),
+          TopicArn: process.env.CREATE_PRODUCT_TOPIC_ARN,
+          MessageAttributes: {
+            price: {
+              DataType: "Number",
+              StringValue: String(price),
+            },
+            count: {
+              DataType: "Number",
+              StringValue: String(count),
+            },
           },
-        },
-      })
-      .promise();
+        })
+        .promise();
+    }
 
     return MessageUtil.success({ ids });
   } catch (e) {
