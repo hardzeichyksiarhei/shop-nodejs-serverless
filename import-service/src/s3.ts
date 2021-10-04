@@ -13,7 +13,7 @@ class S3Utils {
 
   constructor() {
     this._s3 = new AWS.S3({ region: REGION });
-    this._sqs = new AWS.SQS();
+    this._sqs = new AWS.SQS({ region: REGION });
   }
 
   public static getInstance(): S3Utils {
