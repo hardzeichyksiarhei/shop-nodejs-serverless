@@ -73,6 +73,14 @@ const catalogBatchProcess = async (event: lambda.SQSEvent) => {
         .promise();
     }
 
+    await sns
+      .publish({
+        Subject: `${ids.length} products uploaded`,
+        Message: `New products id's: ${ids.join(", ")}`,
+        TopicArn: process.env.CREATE_PRODUCT_TOPIC_ARN,
+      })
+      .promise();
+
     return MessageUtil.success({ ids });
   } catch (e) {
     await dbClient.query("ROLLBACK");
