@@ -11,14 +11,10 @@ export default {
       http: {
         method: "get",
         path: "import",
-        cors: true,
         request: {
           parameters: {
             querystrings: {
               name: true,
-            },
-            headers: {
-              "Access-Control-Allow-Origin": true,
             },
           },
         },
