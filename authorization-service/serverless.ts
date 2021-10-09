@@ -15,6 +15,7 @@ const serverlessConfiguration: AWS = {
   provider: {
     name: "aws",
     runtime: "nodejs14.x",
+    region: "eu-west-3",
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -26,6 +27,18 @@ const serverlessConfiguration: AWS = {
   },
   // import the function via paths
   functions: { basicAuthorizer },
+  resources: {
+    Resources: {},
+    Outputs: {
+      BasicAuthorizerLambdaFunctionQualifiedArn: {
+        Export: {
+          Name: {
+            "Fn::Sub": "${AWS::StackName}-BasicAuthorizerArn",
+          },
+        },
+      },
+    },
+  },
 };
 
 module.exports = serverlessConfiguration;
