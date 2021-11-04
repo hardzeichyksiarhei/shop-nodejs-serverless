@@ -11,11 +11,13 @@ export class AppController {
 
   @All('*')
   async root(@Req() req: Request) {
-    const { originalUrl } = req;
+    const { originalUrl, method, body } = req;
     const [_, recipient] = originalUrl.split('/');
-    const recipientUrl = API_URL[recipient.toLowerCase()];
 
-    if (recipientUrl) return recipientUrl
+    const recipientUrl = API_URL[recipient.toUpperCase()];
+
+    const url = `${recipientUrl}/${originalUrl}`;
+    if (recipientUrl) return this.appService.request({ method, url, body });
     
     throw new HttpException('Cannot process request', HttpStatus.BAD_GATEWAY);
   }
