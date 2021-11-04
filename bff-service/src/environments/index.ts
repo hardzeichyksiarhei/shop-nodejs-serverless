@@ -10,3 +10,9 @@ export const AUTHOR: string = process.env.AUTHOR || 'hardz';
 
 // application
 export const PORT: number = parseInt(process.env.PORT, 10) || 4000;
+
+// remote api
+export const API_URL =  {
+    PRODUCT: process.env.API_PRODUCT_URL || '',
+    CART:  process.env.API_CART_URL || '',
+}
