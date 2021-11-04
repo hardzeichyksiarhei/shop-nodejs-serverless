@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 
@@ -7,9 +7,20 @@ export class AppService {
   constructor(private httpService: HttpService) {}
   
   async request({ method, url, body }) {
-    const data = Object.keys(body || {}).length > 0 && { data: body }
-    const requestConfig = { method, url, ...data };
-    const response$ = this.httpService.request(requestConfig);
-    return lastValueFrom(response$);
+    try {
+      const maybeData = Object.keys(body || {}).length > 0 && { data: body }
+      const requestConfig = { method, url, ...maybeData };
+      const response$ = this.httpService.request(requestConfig);
+      const { data } = await lastValueFrom(response$);
+      return data
+    } catch(error) {
+      const { message, response } = error
+      if (response) {
+        const { status, data } = response;
+        throw new HttpException(data, status);
+      }
+
+      throw new HttpException(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
