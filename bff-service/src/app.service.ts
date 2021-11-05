@@ -11,8 +11,7 @@ export class AppService {
       const maybeData = Object.keys(body || {}).length > 0 && { data: body }
       const requestConfig = { method, url, ...maybeData };
       const response$ = this.httpService.request(requestConfig);
-      const { data } = await lastValueFrom(response$);
-      return data
+      return lastValueFrom(response$)
     } catch(error) {
       const { message, response } = error
       if (response) {
