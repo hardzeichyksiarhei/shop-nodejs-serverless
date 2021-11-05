@@ -12,7 +12,7 @@ export const AUTHOR: string = process.env.AUTHOR || 'hardz';
 export const PORT: number = parseInt(process.env.PORT, 10) || 4000;
 
 // cache
-export const CACHE_TTL: number = parseInt(process.env.CACHE_TTL, 10) || 120000;
+export const CACHE_TTL: number = parseInt(process.env.CACHE_TTL, 10) || 120;
 
 // remote api
 export const API_URL =  {
