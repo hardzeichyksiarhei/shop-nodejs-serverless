@@ -16,19 +16,23 @@ export class AppController {
   @All('*')
   async root(@Req() req: Request) {
     const { originalUrl, method, body } = req;
-    const [_, recipient] = originalUrl.split('/');
-
+    
+    const [_, recipient, ...otherTokens] = originalUrl.split('/');
+    
     if (method === 'DELETE' && recipient === 'products') {
       await this.resetCache('GET_PRODUCTS_CACHE');
     }
 
-    const shouldUseCache = method === 'GET' && recipient === 'products';
+    // Cached only /products urls
+    const shouldUseCache = method === 'GET' && recipient === 'products' && !otherTokens.length;
     const cacheProducts = await this.cacheManager.get('GET_PRODUCTS_CACHE');
     if (shouldUseCache && cacheProducts) return cacheProducts;
 
     const recipientUrl = API_URL[recipient.toUpperCase()];
 
     const url = `${recipientUrl}${originalUrl}`;
+    console.log(url);
+    
     if (recipientUrl) {
       const { data } = await this.appService.request({ method, url, body });
       if (shouldUseCache && !cacheProducts) {
