@@ -18,6 +18,10 @@ export class AppController {
     const { originalUrl, method, body } = req;
     const [_, recipient] = originalUrl.split('/');
 
+    if (method === 'DELETE' && recipient === 'products') {
+      await this.resetCache('GET_PRODUCTS_CACHE');
+    }
+
     const shouldUseCache = method === 'GET' && recipient === 'products';
     const cacheProducts = await this.cacheManager.get('GET_PRODUCTS_CACHE');
     if (shouldUseCache && cacheProducts) return cacheProducts;
@@ -34,5 +38,9 @@ export class AppController {
     }
     
     throw new HttpException('Cannot process request', HttpStatus.BAD_GATEWAY);
+  }
+
+  async resetCache(key) {
+    await this.cacheManager.del(key);
   }
 }
